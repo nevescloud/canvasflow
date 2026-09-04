@@ -6,16 +6,13 @@ Every Canvas deadline in one panel. A Chrome extension for students on Canvas LM
 
 ## Feedback and requests
 
-[Send feedback](https://neves.cloud/canvasflow/feedback.html) needs no GitHub account: it posts here as an issue and hands you a link to follow. With an account, [open an issue](https://github.com/nevescloud/canvasflow/issues/new/choose) directly.
-
-Issues are public. Leave out your name, email, and school login.
+[Send feedback](https://neves.cloud/canvasflow/feedback.html) from the site, or [open an issue](https://github.com/nevescloud/canvasflow/issues/new/choose) here. The site's form opens GitHub with your message filled in; you press Submit there. Either way takes a free GitHub account, and issues are public: leave out your name, email, and school login.
 
 ## This repository
 
 | Path | What it is |
 |---|---|
 | `docs/` | The site, served by GitHub Pages at neves.cloud/canvasflow |
-| `api/` | The Cloudflare Worker behind the feedback form. It validates a submission, rate-limits it, and opens the issue. |
 | `.github/ISSUE_TEMPLATE/` | The issue forms |
 
 The extension's source is not published here.

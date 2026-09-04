@@ -1,0 +1,11 @@
+name: Uninstall feedback
+description: Why you removed it.
+labels: [uninstall]
+body:
+  - type: textarea
+    id: message
+    attributes:
+      label: What made you remove it?
+      description: Leave out your name, email, and school login.
+    validations:
+      required: true

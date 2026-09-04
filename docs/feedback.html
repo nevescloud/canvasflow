@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CanvasFlow feedback</title>
-    <meta name="description" content="Report a bug or ask for a feature. No account needed; it posts as a public GitHub issue you can follow.">
+    <meta name="description" content="Report a bug or ask for a feature. It opens a GitHub issue with your message filled in.">
     <link rel="icon" href="icon.png" type="image/png">
 
     <style>
@@ -92,7 +92,6 @@
         button:disabled { background: #9CA3AF; cursor: not-allowed; }
         .status { min-height: 1.4rem; margin: 0.7rem 0 0; font-size: 0.9rem; }
         .problem { min-height: 1.4rem; margin: 0.5rem 0 0; font-size: 0.9rem; color: #B42318; font-weight: 600; }
-        .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
         .fallback { margin-top: 0.9rem; }
         .fallback[hidden] { display: none; }
         .fbnote { font-size: 0.9rem; margin-bottom: 0.5rem; }
@@ -116,7 +115,7 @@
             <a href="./">CanvasFlow</a>
         </div>
         <h1>Tell me what to fix or build.</h1>
-        <p>It posts as a public issue on GitHub, readable by anyone, and you get a link to follow it. No account needed. Leave out your name, email, and school login.</p>
+        <p>It opens GitHub with your message filled in, and you press Submit there. Issues are public, readable by anyone, so leave out your name, email, and school login. Takes a free GitHub account.</p>
 
         <form id="form">
             <fieldset>
@@ -127,45 +126,47 @@
             </fieldset>
 
             <label class="stack" for="message">What happened, or what would help?</label>
-            <textarea id="message" name="message" required maxlength="4000" placeholder="The more specific, the faster it gets fixed."></textarea>
+            <textarea id="message" name="message" required maxlength="3000" placeholder="The more specific, the faster it gets fixed."></textarea>
             <p class="hint">For a bug: what you did, what you expected, what you saw instead.</p>
 
-            <div class="hp" aria-hidden="true">
-                <label for="website">Website</label>
-                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-            </div>
-
-            <button type="submit" id="send">Post it</button>
+            <button type="submit" id="send">Continue on GitHub</button>
             <p class="status" id="status" role="status" aria-live="polite"></p>
             <p class="problem" id="problem" role="alert"></p>
 
-            <div class="fallback" id="fallback" hidden>
-                <p class="fbnote">Open it on GitHub instead (needs a GitHub account), or copy it for later.</p>
-                <a class="ghost" id="ghLink" href="https://github.com/nevescloud/canvasflow/issues/new/choose" target="_blank" rel="noopener">Open on GitHub</a>
+            <div class="fallback" id="after" hidden>
+                <p class="fbnote">If GitHub asked you to sign in, sign in or make a free account, then check your message is still there. If it is gone, paste it from here. No new tab? <a id="ghLink" href="https://github.com/nevescloud/canvasflow/issues/new/choose">Open GitHub in this tab</a>.</p>
                 <textarea id="fbText" readonly rows="5" aria-label="Your message"></textarea>
                 <button type="button" class="ghost" id="copy">Copy the message</button>
             </div>
         </form>
 
-        <p class="foot">Already on GitHub? Everything lives at <a href="https://github.com/nevescloud/canvasflow/issues">github.com/nevescloud/canvasflow</a>. This page collects nothing else: no analytics, no cookies.</p>
+        <p class="foot">Already on GitHub? Everything lives at <a href="https://github.com/nevescloud/canvasflow/issues">github.com/nevescloud/canvasflow</a>. This page collects nothing: no analytics, no cookies, no server of its own. Nothing is sent until you press Submit on GitHub.</p>
     </main>
 
 <script>
 (function () {
   'use strict';
-  // Relative on purpose: resolves to /canvasflow/api/feedback, which Cloudflare
-  // routes to the Worker in ../api. Same origin as this page, so no CORS.
-  var API = 'api/feedback';
+  var REPO = 'https://github.com/nevescloud/canvasflow';
+  // Issue-form templates carry the labels; a labels= query parameter only
+  // works for accounts with push access, so it would be dropped for everyone
+  // this page is for.
   var TEMPLATE = { bug: 'bug.yml', feature: 'feature.yml', other: 'feedback.yml' };
   var form = document.getElementById('form');
   var send = document.getElementById('send');
   var status = document.getElementById('status');
   var problem = document.getElementById('problem');
   var message = document.getElementById('message');
-  var fallback = document.getElementById('fallback');
+  var after = document.getElementById('after');
   var fbText = document.getElementById('fbText');
   var ghLink = document.getElementById('ghLink');
-  var loadedAt = Date.now();
+
+  function issueUrl(kind, text) {
+    var first = text.split('\n')[0].trim();
+    var title = first.length > 72 ? first.slice(0, 69).replace(/\s+\S*$/, '') + '...' : first;
+    return REPO + '/issues/new?template=' + TEMPLATE[kind]
+      + '&title=' + encodeURIComponent(title)
+      + '&message=' + encodeURIComponent(text);
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -174,65 +175,31 @@
       problem.textContent = 'Pick one of the three first.';
       return;
     }
-    if (!message.value.trim()) {
+    var text = message.value.trim();
+    if (!text) {
       problem.textContent = 'Write something first.';
       message.focus();
       return;
     }
     problem.textContent = '';
-    var payload = {
-      kind: picked.value,
-      message: message.value.trim(),
-      hp: form.elements.website.value,
-      elapsed: Date.now() - loadedAt
-    };
-    send.disabled = true;
-    send.textContent = 'Posting';
-    status.textContent = 'Posting.';
-    fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
-      .then(function (r) {
-        return r.json().then(function (j) { return { ok: r.ok, status: r.status, url: j && j.url }; });
-      })
-      .then(function (r) {
-        if (r.ok) return posted(r.url);
-        if (r.status === 429) return retry('Too many messages from this connection. Try again in a minute.');
-        offline(payload);
-      })
-      .catch(function () { offline(payload); });
+    var url = issueUrl(picked.value, text);
+
+    // A new tab via an anchor inside the click, not window.location: GitHub
+    // may bounce through sign-in or sign-up, and this page has to stay put so
+    // the copy of the message below survives whatever happens over there.
+    var a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    ghLink.href = url;
+    fbText.value = text;
+    after.hidden = false;
+    status.textContent = 'GitHub opened in a new tab with your message filled in. Press "Submit new issue" there.';
   });
-
-  function posted(url) {
-    form.querySelector('fieldset').disabled = true;
-    message.disabled = true;
-    send.textContent = 'Posted';
-    status.textContent = 'Posted. Thank you. ';
-    if (url) {
-      var a = document.createElement('a');
-      a.href = url;
-      a.textContent = 'Follow it on GitHub';
-      status.appendChild(a);
-    }
-  }
-
-  function retry(msg) {
-    problem.textContent = msg;
-    status.textContent = '';
-    send.disabled = false;
-    send.textContent = 'Post it';
-  }
-
-  // The endpoint is down or unconfigured. GitHub's own form still works for
-  // anyone with an account, and the text survives either way.
-  function offline(payload) {
-    problem.textContent = 'The form could not post right now.';
-    status.textContent = '';
-    ghLink.href = 'https://github.com/nevescloud/canvasflow/issues/new?template=' + TEMPLATE[payload.kind]
-      + '&message=' + encodeURIComponent(payload.message);
-    fbText.value = payload.message;
-    fallback.hidden = false;
-    send.disabled = false;
-    send.textContent = 'Post it';
-  }
 
   document.getElementById('copy').addEventListener('click', function () {
     function select() {
