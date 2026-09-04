@@ -151,6 +151,13 @@
   // works for accounts with push access, so it would be dropped for everyone
   // this page is for.
   var TEMPLATE = { bug: 'bug.yml', feature: 'feature.yml', other: 'feedback.yml' };
+  // The extension links here with its version attached, so a bug report carries
+  // the build without the reporter reading it off Settings and typing it in.
+  // Validated rather than passed through: this arrives from a URL anyone can
+  // write, and it lands in a field of a public issue. Bugs only, since the build
+  // a feature request was thought up on says nothing.
+  var VERSION = (new URLSearchParams(location.search).get('v') || '').trim();
+  if (!/^\d+\.\d+\.\d+$/.test(VERSION)) VERSION = '';
   var form = document.getElementById('form');
   var send = document.getElementById('send');
   var status = document.getElementById('status');
@@ -165,7 +172,8 @@
     var title = first.length > 72 ? first.slice(0, 69).replace(/\s+\S*$/, '') + '...' : first;
     return REPO + '/issues/new?template=' + TEMPLATE[kind]
       + '&title=' + encodeURIComponent(title)
-      + '&message=' + encodeURIComponent(text);
+      + '&message=' + encodeURIComponent(text)
+      + (kind === 'bug' && VERSION ? '&version=' + encodeURIComponent(VERSION) : '');
   }
 
   form.addEventListener('submit', function (e) {

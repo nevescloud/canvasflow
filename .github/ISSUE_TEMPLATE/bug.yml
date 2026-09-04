@@ -10,6 +10,12 @@ body:
     validations:
       required: true
   - type: input
+    id: version
+    attributes:
+      label: CanvasFlow version
+      description: Settings, under Troubleshooting, shows it. Optional.
+      placeholder: 1.8.1
+  - type: input
     id: school
     attributes:
       label: Canvas address
