@@ -187,6 +187,9 @@
     // A new tab via an anchor inside the click, not window.location: GitHub
     // may bounce through sign-in or sign-up, and this page has to stay put so
     // the copy of the message below survives whatever happens over there.
+    // Signed out, GitHub redirects to /login with the whole prefilled URL in
+    // return_to, so the text does come back after signing in (measured
+    // 2026-09-04). The copy below is for the cases where it doesn't.
     var a = document.createElement('a');
     a.href = url;
     a.target = '_blank';
@@ -198,7 +201,7 @@
     ghLink.href = url;
     fbText.value = text;
     after.hidden = false;
-    status.textContent = 'GitHub opened in a new tab with your message filled in. Press "Submit new issue" there.';
+    status.textContent = 'GitHub opened in a new tab with your message filled in. Press the green Create button there.';
   });
 
   document.getElementById('copy').addEventListener('click', function () {
