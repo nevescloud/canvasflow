@@ -1,0 +1,19 @@
+{
+  // The feedback form's endpoint, routed on the neves.cloud zone so it is
+  // same-origin with the GitHub Pages site under /canvasflow/.
+  "name": "canvasflow-feedback",
+  "main": "src/index.js",
+  "compatibility_date": "2025-06-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "neves.cloud/canvasflow/api/*", "zone_name": "neves.cloud" }
+  ],
+  // Per-IP, per-colo. A person posts once; anything past five a minute is a script.
+  "ratelimits": [
+    { "name": "RL_IP", "namespace_id": "2001", "simple": { "limit": 5, "period": 60 } }
+  ],
+  "observability": { "enabled": true }
+  // Secret (wrangler secret put GITHUB_TOKEN): fine-grained PAT, resource owner
+  // nevescloud, repository nevescloud/canvasflow only, Issues: read and write.
+  // Without it the endpoint answers 503 and the pages fall back to GitHub's form.
+}

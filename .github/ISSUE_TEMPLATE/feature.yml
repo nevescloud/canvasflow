@@ -1,0 +1,11 @@
+name: Feature request
+description: Something CanvasFlow should do.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: message
+    attributes:
+      label: What would help, and when?
+      description: The moment in your week where this would save you something. Leave out your name, email, and school login.
+    validations:
+      required: true

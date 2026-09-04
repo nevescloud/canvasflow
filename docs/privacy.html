@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanvasFlow Privacy Policy</title>
+    <meta name="description" content="CanvasFlow's privacy policy: data stays local, leaves only on request, no tracking.">
+    <link rel="icon" href="icon.png" type="image/png">
+
+    <style>
+        :root {
+            --navy: #1E3A5F;
+            --navy-2: #2C4F7C;
+            --coral: #E86F5F;
+            --ink: #111827;
+            --muted: #6B7280;
+            --line: #E5E7EB;
+            --bg: #F7F8FA;
+            --card: #FFFFFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--ink);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            padding: 3rem 1.5rem;
+        }
+        a { color: var(--navy); }
+        :focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; border-radius: 4px; }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2.75rem 2.5rem;
+            box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+        }
+        .brand { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.6rem; }
+        .brand img { width: 36px; height: 36px; border-radius: 8px; }
+        .brand a { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; color: var(--navy); text-decoration: none; }
+        h1 { font-size: 1.8rem; line-height: 1.25; margin-bottom: 0.35rem; }
+        .updated { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.6rem; }
+        h2 { font-size: 1.15rem; margin: 1.8rem 0 0.5rem; }
+        p, li { color: var(--ink); }
+        ul { padding-left: 1.2rem; margin: 0.4rem 0 0.8rem; }
+        li { margin-bottom: 0.55rem; }
+        code { background: #F2F5F9; border: 1px solid var(--line); border-radius: 4px; padding: 0.05em 0.35em; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <div class="brand">
+            <img src="icon.png" alt="" width="36" height="36">
+            <a href="./">CanvasFlow</a>
+        </div>
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: 2026-08-01</p>
+
+        <p>CanvasFlow reads your Canvas LMS assignments and turns them into ranked priorities and practice quizzes. No backend of its own.</p>
+
+        <h2>Data</h2>
+        <ul>
+            <li><strong>Stays local.</strong> Courses, assignments, calendar events, and settings live in <code>chrome.storage.local</code> and clear when you remove the extension. Canvas is read via <code>/api/v1</code> on your existing browser session, and credentials are never seen, stored, or transmitted.</li>
+            <li><strong>Your coursework is never transmitted.</strong> The only server CanvasFlow contacts is your own school's Canvas, to read your assignments. Priorities are ranked inside the extension. Practice quizzes are written by Chrome's built-in AI model, which runs on your own computer, so the course material used to write them never leaves the device. There is no CanvasFlow server, no account, and no third-party AI provider.</li>
+        </ul>
+
+        <h2>Not done</h2>
+        <p>No tracking, analytics, cookies, or ads. Nothing is sold or shared, because nothing is collected.</p>
+
+        <h2>Contact</h2>
+        <p>Email <a href="mailto:hello@jonasneves.com">hello@jonasneves.com</a>, or use the <a href="feedback.html">feedback form</a>, which posts publicly. Policy changes are dated above.</p>
+    </main>
+</body>
+</html>

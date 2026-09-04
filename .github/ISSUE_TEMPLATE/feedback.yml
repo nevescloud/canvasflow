@@ -1,0 +1,10 @@
+name: Feedback
+description: Anything else.
+body:
+  - type: textarea
+    id: message
+    attributes:
+      label: Your message
+      description: Leave out your name, email, and school login.
+    validations:
+      required: true
