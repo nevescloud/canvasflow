@@ -57,18 +57,22 @@
             <a href="./">Kandue</a>
         </div>
         <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: 2026-09-04</p>
+        <p class="updated">Last updated: 2026-09-05</p>
 
-        <p>Kandue reads your Canvas LMS assignments and announcements, and turns them into ranked priorities, practice quizzes and reading aids. No backend of its own.</p>
+        <p>Kandue reads your Canvas LMS assignments and announcements, and turns them into ranked priorities, practice quizzes and reading aids. It can write one thing back, if you ask it to, and that is described below. No backend of its own.</p>
 
         <h2>Data</h2>
         <ul>
             <li><strong>Stays local.</strong> Courses, assignments, announcements, and settings live in <code>chrome.storage.local</code> and clear when you remove the extension. Canvas is read via <code>/api/v1</code> on your existing browser session, and credentials are never seen, stored, or transmitted.</li>
-            <li><strong>Your coursework is never transmitted.</strong> The only server Kandue contacts is your own school's Canvas, to read your assignments. Priorities are ranked inside the extension. Practice quizzes, summaries and translations all use Chrome's built-in AI model, which runs on your own computer, so the course material they read never leaves the device. There is no Kandue server, no account, and no third-party AI provider.</li>
+            <li><strong>Your coursework is never transmitted.</strong> The only server Kandue contacts is your own school's Canvas, to read your assignments and, if you have turned it on, to mark one done. Priorities are ranked inside the extension. Practice quizzes, summaries and translations all use Chrome's built-in AI model, which runs on your own computer, so the course material they read never leaves the device. There is no Kandue server, no account, and no third-party AI provider.</li>
         </ul>
 
+        <h2>Writing to Canvas</h2>
+        <p>Off unless you turn it on in Settings. With it on, ticking an assignment off also marks it done on your own Canvas planner, and nothing else is ever written: it cannot submit work or post anything as you.</p>
+        <p>Canvas requires a security token on any write that uses your browser session, so turning this on is also what asks your permission to read one cookie, <code>_csrf_token</code>, from your own Canvas site. That token is sent straight back to Canvas and nowhere else, and it is never stored. Permission is requested at that moment rather than at install, so leaving the setting off means never being asked.</p>
+
         <h2>Not done</h2>
-        <p>No tracking, analytics, cookies, or ads. Nothing is sold or shared, because nothing is collected.</p>
+        <p>No tracking, analytics, or ads. Nothing is sold or shared, because nothing is collected. Kandue sets no cookies of its own.</p>
 
         <h2>Contact</h2>
         <p>Email <a href="mailto:hello@jonasneves.com">hello@jonasneves.com</a>, or use the <a href="feedback.html">feedback form</a>, which posts in public. Policy changes are dated above.</p>
