@@ -1,5 +1,5 @@
 name: Feature request
-description: Something CanvasFlow should do.
+description: Something Kandue should do.
 labels: [enhancement]
 body:
   - type: textarea

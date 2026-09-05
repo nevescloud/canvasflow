@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CanvasFlow feedback</title>
+    <title>Kandue feedback</title>
     <meta name="description" content="Report a bug or ask for a feature. It opens a GitHub issue with your message filled in.">
     <link rel="icon" href="icon.png" type="image/png">
 
@@ -112,7 +112,7 @@
     <main class="card">
         <div class="brand">
             <img src="icon.png" alt="" width="36" height="36">
-            <a href="./">CanvasFlow</a>
+            <a href="./">Kandue</a>
         </div>
         <h1>Tell me what to fix or build.</h1>
         <p>It opens GitHub with your message filled in, and you press Create there. Takes a free GitHub account. Issues are public, so leave out your name, email, and school login.</p>
@@ -134,19 +134,19 @@
             <p class="problem" id="problem" role="alert"></p>
 
             <div class="fallback" id="after" hidden>
-                <p class="fbnote">If GitHub asked you to sign in, sign in or make a free account, then check your message is still there. If it is gone, paste it from here. No new tab? <a id="ghLink" href="https://github.com/nevescloud/canvasflow/issues/new/choose">Open GitHub in this tab</a>.</p>
+                <p class="fbnote">If GitHub asked you to sign in, sign in or make a free account, then check your message is still there. If it is gone, paste it from here. No new tab? <a id="ghLink" href="https://github.com/nevescloud/kandue/issues/new/choose">Open GitHub in this tab</a>.</p>
                 <textarea id="fbText" readonly rows="5" aria-label="Your message"></textarea>
                 <button type="button" class="ghost" id="copy">Copy the message</button>
             </div>
         </form>
 
-        <p class="foot">Already on GitHub? Everything lives at <a href="https://github.com/nevescloud/canvasflow/issues">github.com/nevescloud/canvasflow</a>. This page collects nothing: no analytics, no cookies, no server of its own. Nothing is sent until you press Create on GitHub.</p>
+        <p class="foot">Already on GitHub? Everything lives at <a href="https://github.com/nevescloud/kandue/issues">github.com/nevescloud/kandue</a>. This page collects nothing: no analytics, no cookies, no server of its own. Nothing is sent until you press Create on GitHub.</p>
     </main>
 
 <script>
 (function () {
   'use strict';
-  var REPO = 'https://github.com/nevescloud/canvasflow';
+  var REPO = 'https://github.com/nevescloud/kandue';
   // Issue-form templates carry the labels; a labels= query parameter only
   // works for accounts with push access, so it would be dropped for everyone
   // this page is for.
